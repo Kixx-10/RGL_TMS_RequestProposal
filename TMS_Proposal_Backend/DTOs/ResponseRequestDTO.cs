@@ -2,6 +2,7 @@
 {
     public class ResponseRequestDTO
     {
+        public Guid Id { get; set; }
         public string CustomerName { get; set; } = string.Empty;
         public DateTime JobDate { get; set; } = DateTime.UtcNow.Date;
         public string JobType { get; set; } = string.Empty;
@@ -9,5 +10,6 @@
         public string DriverName { get; set; } = string.Empty;
         public string DriverLicenseNo { get; set; } = string.Empty;
         public DateTime RegistrationDateTime { get; set; } = DateTime.UtcNow.Date;
+        public Guid CreatedByUserId { get; set; }
     }
 }

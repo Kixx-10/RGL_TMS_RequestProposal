@@ -24,10 +24,16 @@ namespace TMS_Proposal_Backend.Controllers
             CreateRequestDTO dto)
         {
             var userIdValue = User.FindFirst("Id")?.Value;
+            var userName = User.FindFirst("Name")?.Value;
 
             if (!Guid.TryParse(userIdValue, out var userId))
             {
                 return Unauthorized();
+            }
+
+            if (!string.IsNullOrWhiteSpace(userName))
+            {
+                dto.CustomerName = userName;
             }
 
             var result = await _requestService.CreateRequestAsync( dto, userId);
@@ -36,12 +42,23 @@ namespace TMS_Proposal_Backend.Controllers
         }
 
         // Read All Requests Endpoint
+        // Read All Requests Endpoint
         [HttpGet("ReadAll")]
         public async Task<IActionResult> GetAllRequests()
         {
-            var result =await _requestService.GetAllRequestsAsync();
+            var userIdValue = User.FindFirst("Id")?.Value;
+            var isAdminValue = User.FindFirst("IsAdmin")?.Value;
 
-            return result.IsSuccess ? Ok(result): BadRequest(result);
+            if (!Guid.TryParse(userIdValue, out var userId))
+            {
+                return Unauthorized();
+            }
+
+            bool isAdmin = bool.TryParse(isAdminValue, out var adminResult) && adminResult;
+
+            var result = await _requestService.GetAllRequestsAsync(userId, isAdmin);
+
+            return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         // Read Request By ID Endpoint

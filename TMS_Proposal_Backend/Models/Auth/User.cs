@@ -10,6 +10,10 @@ namespace TMS_Proposal_Backend.Models.Auth
 
         [Required]
         [MaxLength(50)]
+        public string Name { get; set; } = string.Empty;
+
+        [Required]
+        [MaxLength(50)]
         public string Email {  get; set; } = string.Empty;
 
         [Required]
