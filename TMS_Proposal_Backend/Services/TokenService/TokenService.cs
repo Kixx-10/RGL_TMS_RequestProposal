@@ -19,11 +19,13 @@ namespace TMS_Proposal_Backend.Services.TokenService
 
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256Signature);
             var claims = new List<Claim>
-        {
-            new Claim(JwtRegisteredClaimNames.Email, user.Email),
-            new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-            new Claim("Id", user.Id.ToString())
-        };
+            {
+                new Claim(JwtRegisteredClaimNames.Email, user.Email),
+                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                new Claim("Id", user.Id.ToString()),
+                new Claim("Name", user.Name ?? string.Empty),
+                new Claim("IsAdmin", user.IsAdmin.ToString())
+            };
 
             var tokenDescriptor = new SecurityTokenDescriptor
             {

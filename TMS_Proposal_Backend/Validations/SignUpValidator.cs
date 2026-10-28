@@ -8,6 +8,9 @@ namespace TMS_Proposal_Backend.Validations
     {
         public SignUpValidator()
         {
+            RuleFor(x => x.Name)
+                .NotEmpty().WithMessage("Name is required.")
+                .MaximumLength(100).WithMessage("Name cannot exceed 100 characters.");
             RuleFor(x => x.Email)
                 .NotEmpty().WithMessage("Email is required")
                 .MaximumLength(50).WithMessage("Email address not exceeds 50 characters")
@@ -17,7 +20,7 @@ namespace TMS_Proposal_Backend.Validations
                 .MinimumLength(3).WithMessage("Password must be at least 3")
                 .MaximumLength(255).WithMessage("Psswords not exceed 255 characters");
             RuleFor(x => x.IsAdmin)
-                .NotEmpty().WithMessage("Verify Admin or no");
+                .NotNull().WithMessage("Verify Admin or no");
 
         }
     }
