@@ -61,19 +61,25 @@ namespace TMS_Proposal_Backend.Services.RequestService
         }
 
         // Read All Requests
-        public async Task<ServiceResponse<IEnumerable<ResponseRequestDTO>>>GetAllRequestsAsync()
+        public async Task<ServiceResponse<IEnumerable<ResponseRequestDTO>>> GetAllRequestsAsync(Guid userId, bool isAdmin)
         {
             try
             {
-                var requests =await _requestRepository.GetAllRequestsAsync();
+                var requests = await _requestRepository.GetAllRequestsAsync();
 
-                var responseDto =_mapper.Map<IEnumerable<ResponseRequestDTO>>(requests);
+                // Admin မဟုတ်ပါက Login ဝင်ထားသော User ၏ Proposal များကိုသာ စစ်ထုတ်မည်
+                if (!isAdmin)
+                {
+                    requests = requests.Where(r => r.CreatedByUserId == userId);
+                }
 
-                return ServiceResponse<IEnumerable<ResponseRequestDTO>>.Success(responseDto,"Requests retrieved successfully.");
+                var responseDto = _mapper.Map<IEnumerable<ResponseRequestDTO>>(requests);
+
+                return ServiceResponse<IEnumerable<ResponseRequestDTO>>.Success(responseDto, "Requests retrieved successfully.");
             }
             catch (Exception)
             {
-                return ServiceResponse< IEnumerable<ResponseRequestDTO>>.Failure("SERVER_ERROR","Internal Server Error!");
+                return ServiceResponse<IEnumerable<ResponseRequestDTO>>.Failure("SERVER_ERROR", "Internal Server Error!");
             }
         }
 
@@ -136,7 +142,7 @@ namespace TMS_Proposal_Backend.Services.RequestService
                 return ServiceResponse<ResponseRequestDTO>.Failure("SERVER_ERROR","An internal server error occurred.");
             }
         }
-        //Delete
+        //Delete Service
         public async Task<ServiceResponse<bool>> DeleteRequestAsync(Guid requestId,Guid deletedByUserId)
         {
             try
