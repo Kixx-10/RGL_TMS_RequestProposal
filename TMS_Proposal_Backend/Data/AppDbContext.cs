@@ -2,6 +2,7 @@
 using TMS_Proposal_Backend.Models;
 using TMS_Proposal_Backend.Models.Audits;
 using TMS_Proposal_Backend.Models.Auth;
+using TMS_Proposal_Backend.Models.Master;
 
 namespace TMS_Proposal_Backend.Data
 {
@@ -12,6 +13,7 @@ namespace TMS_Proposal_Backend.Data
         public DbSet<User> Users { get; set; }
         public DbSet<Request> Requests { get; set; }
         public DbSet<AuditLogs> AuditLogs { get; set; }
+        public DbSet<Truck> Trucks { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
