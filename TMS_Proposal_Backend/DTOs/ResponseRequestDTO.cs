@@ -7,9 +7,10 @@
         public DateTime JobDate { get; set; } = DateTime.UtcNow.Date;
         public string JobType { get; set; } = string.Empty;
         public string CarNo { get; set; } = string.Empty;
-        public string DriverName { get; set; } = string.Empty;
-        public string DriverLicenseNo { get; set; } = string.Empty;
-        public DateTime RegistrationDateTime { get; set; } = DateTime.UtcNow.Date;
+        public DateTime ETA { get; set; } = DateTime.UtcNow.Date;
+        public string? FileName { get; set; }
+        public string? FileUrl { get; set; }
         public Guid CreatedByUserId { get; set; }
+
     }
 }

@@ -23,6 +23,8 @@ namespace TMS_Proposal_Backend.Models.Auth
 
         [Required]
         public bool IsAdmin { get; set; }
+        public string CustomerPhoneNo { get; set; } = string.Empty;
+        public string CompanyAddress { get; set; } = string.Empty;
 
         [Required]
         public DateTime CreatedDated { get; set; } = DateTime.UtcNow.Date;

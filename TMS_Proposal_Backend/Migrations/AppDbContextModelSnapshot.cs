@@ -63,8 +63,16 @@ namespace TMS_Proposal_Backend.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<string>("CompanyAddress")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime>("CreatedDated")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("CustomerPhoneNo")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -92,6 +100,27 @@ namespace TMS_Proposal_Backend.Migrations
                     b.ToTable("Users");
                 });
 
+            modelBuilder.Entity("TMS_Proposal_Backend.Models.Master.Truck", b =>
+                {
+                    b.Property<Guid>("TruckId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("RequestId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("TruckNo")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.HasKey("TruckId");
+
+                    b.HasIndex("RequestId");
+
+                    b.ToTable("Trucks");
+                });
+
             modelBuilder.Entity("TMS_Proposal_Backend.Models.Request", b =>
                 {
                     b.Property<Guid>("Id")
@@ -114,15 +143,16 @@ namespace TMS_Proposal_Backend.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<string>("DriverLicenseNo")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                    b.Property<DateTime>("ETA")
+                        .HasColumnType("datetime2");
 
-                    b.Property<string>("DriverName")
-                        .IsRequired()
+                    b.Property<string>("FileName")
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("FileUrl")
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
 
                     b.Property<DateTime>("JobDate")
                         .HasColumnType("datetime2");
@@ -131,9 +161,6 @@ namespace TMS_Proposal_Backend.Migrations
                         .IsRequired()
                         .HasMaxLength(20)
                         .HasColumnType("nvarchar(20)");
-
-                    b.Property<DateTime>("RegistrationDateTime")
-                        .HasColumnType("datetime2");
 
                     b.Property<DateTime?>("UpdatedDate")
                         .HasColumnType("datetime2");
@@ -156,6 +183,17 @@ namespace TMS_Proposal_Backend.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("TMS_Proposal_Backend.Models.Master.Truck", b =>
+                {
+                    b.HasOne("TMS_Proposal_Backend.Models.Request", "Request")
+                        .WithMany("Trucks")
+                        .HasForeignKey("RequestId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Request");
+                });
+
             modelBuilder.Entity("TMS_Proposal_Backend.Models.Request", b =>
                 {
                     b.HasOne("TMS_Proposal_Backend.Models.Auth.User", "CreatedByUser")
@@ -172,6 +210,11 @@ namespace TMS_Proposal_Backend.Migrations
                     b.Navigation("AuditLogs");
 
                     b.Navigation("Requests");
+                });
+
+            modelBuilder.Entity("TMS_Proposal_Backend.Models.Request", b =>
+                {
+                    b.Navigation("Trucks");
                 });
 #pragma warning restore 612, 618
         }

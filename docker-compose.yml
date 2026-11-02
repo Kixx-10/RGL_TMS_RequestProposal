@@ -1,0 +1,6 @@
+services:
+  tms_proposal_backend:
+    image: ${DOCKER_REGISTRY-}tmsproposalbackend
+    build:
+      context: .
+      dockerfile: TMS_Proposal_Backend/Dockerfile

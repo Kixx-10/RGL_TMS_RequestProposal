@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using TMS_Proposal_Backend.Models.Auth;
+using TMS_Proposal_Backend.Models.Master;
 
 namespace TMS_Proposal_Backend.Models
 {
@@ -25,15 +26,13 @@ namespace TMS_Proposal_Backend.Models
         public string CarNo { get; set; } = string.Empty;
 
         [Required]
+        public DateTime ETA { get; set; } = DateTime.UtcNow.Date;
+
         [MaxLength(100)]
-        public string DriverName { get; set; } = string.Empty;
+        public string? FileName { get; set; }
 
-        [Required]
-        [MaxLength(50)]
-        public string DriverLicenseNo { get; set; } = string.Empty;
-
-        [Required]
-        public DateTime RegistrationDateTime { get; set; } = DateTime.UtcNow.Date;
+        [MaxLength(255)]
+        public string? FileUrl { get; set; }
 
         [Required]
         public DateTime CreatedDated { get; set; } = DateTime.UtcNow.Date;
@@ -45,5 +44,7 @@ namespace TMS_Proposal_Backend.Models
 
         [ForeignKey("CreatedByUserId")]
         public User? CreatedByUser { get; set; }
+
+        public virtual ICollection<Truck> Trucks { get; set; }=new List<Truck>();
     }
 }
