@@ -38,18 +38,14 @@ namespace TMS_Proposal_Backend.Services.RequestService
                 var request = _mapper.Map<Request>(dto);
                 request.CreatedByUserId = createdByUserId;
 
-                var isCreated = await _requestRepository.CreateRequestAsync(request);
-
-                if (!isCreated)
-                {
-                    return ServiceResponse<ResponseRequestDTO>.Failure( "CREATE_REQUEST_FAILED","Request Fail");
-                }
+                var createdRequest = await _requestRepository.CreateRequestAsync(request);
 
                 await _auditsLogService.LogAsync(
                 createdByUserId,
                 "Request Created",
-                new { request.Id });
-                var responseDto = _mapper.Map<ResponseRequestDTO>(request);
+                new { createdRequest.Id });
+
+                var responseDto = _mapper.Map<ResponseRequestDTO>(createdRequest);
 
 
                 return ServiceResponse<ResponseRequestDTO>.Success(responseDto,"Request Successfully created.");

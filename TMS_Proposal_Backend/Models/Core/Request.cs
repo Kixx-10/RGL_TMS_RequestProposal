@@ -17,16 +17,6 @@ namespace TMS_Proposal_Backend.Models
         [Required]
         public DateTime JobDate { get; set; } = DateTime.UtcNow.Date;
 
-        [Required]
-        [MaxLength(20)]
-        public string JobType { get; set; } = string.Empty; // inbound or outbound
-
-        [Required]
-        [MaxLength(20)]
-        public string CarNo { get; set; } = string.Empty;
-
-        [Required]
-        public DateTime ETA { get; set; } = DateTime.UtcNow.Date;
 
         [MaxLength(100)]
         public string? FileName { get; set; }
@@ -35,15 +25,15 @@ namespace TMS_Proposal_Backend.Models
         public string? FileUrl { get; set; }
 
         [Required]
-        public DateTime CreatedDated { get; set; } = DateTime.UtcNow.Date;
-
-        public DateTime? UpdatedDate { get; set; }
-
-        [Required]
         public Guid CreatedByUserId { get; set; } 
 
         [ForeignKey("CreatedByUserId")]
         public User? CreatedByUser { get; set; }
+
+        [Required]
+        public DateTime CreatedDated { get; set; } = DateTime.UtcNow.Date;
+
+        public DateTime? UpdatedDate { get; set; }
 
         public virtual ICollection<Truck> Trucks { get; set; }=new List<Truck>();
     }

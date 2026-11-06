@@ -17,12 +17,17 @@ namespace TMS_Proposal_Backend.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+            modelBuilder.Entity<Request>()
+                .HasMany(r => r.Trucks)
+                .WithOne(t => t.Request)
+                .HasForeignKey(t => t.RequestId)
+                .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<Request>()
                 .HasOne(r => r.CreatedByUser)
                 .WithMany(a => a.Requests)
                 .HasForeignKey(r => r.CreatedByUserId)
-                .OnDelete(DeleteBehavior.Restrict); // if admin delete one user ,no deleted all records its .If want to delete use .Cascade
+                .OnDelete(DeleteBehavior.Cascade); // if admin delete one user ,no deleted all records its .If want to delete use .Cascade
 
             modelBuilder.Entity<AuditLogs>()
                 .HasOne(a => a.User)
