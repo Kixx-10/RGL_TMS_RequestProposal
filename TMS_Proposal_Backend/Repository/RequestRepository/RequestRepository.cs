@@ -15,13 +15,12 @@ namespace TMS_Proposal_Backend.Repository.RequestRepository
         }
 
         // Create Request Proposal
-        public async Task<bool> CreateRequestAsync(Request request)
+        public async Task<Request> CreateRequestAsync(Request request)
         {
             _context.Requests.Add(request);
+            await _context.SaveChangesAsync();
 
-            var result = await _context.SaveChangesAsync();
-
-            return result > 0;
+            return request;
         }
 
         // Read All Requests

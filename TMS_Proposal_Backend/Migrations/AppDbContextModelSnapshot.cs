@@ -106,6 +106,17 @@ namespace TMS_Proposal_Backend.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<DateTime>("CreatedDated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("ETA")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("JobType")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
+
                     b.Property<Guid>("RequestId")
                         .HasColumnType("uniqueidentifier");
 
@@ -113,6 +124,9 @@ namespace TMS_Proposal_Backend.Migrations
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
+
+                    b.Property<DateTime?>("UpdatedDate")
+                        .HasColumnType("datetime2");
 
                     b.HasKey("TruckId");
 
@@ -127,11 +141,6 @@ namespace TMS_Proposal_Backend.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("CarNo")
-                        .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
-
                     b.Property<Guid>("CreatedByUserId")
                         .HasColumnType("uniqueidentifier");
 
@@ -143,9 +152,6 @@ namespace TMS_Proposal_Backend.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<DateTime>("ETA")
-                        .HasColumnType("datetime2");
-
                     b.Property<string>("FileName")
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
@@ -156,11 +162,6 @@ namespace TMS_Proposal_Backend.Migrations
 
                     b.Property<DateTime>("JobDate")
                         .HasColumnType("datetime2");
-
-                    b.Property<string>("JobType")
-                        .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
 
                     b.Property<DateTime?>("UpdatedDate")
                         .HasColumnType("datetime2");
@@ -199,7 +200,7 @@ namespace TMS_Proposal_Backend.Migrations
                     b.HasOne("TMS_Proposal_Backend.Models.Auth.User", "CreatedByUser")
                         .WithMany("Requests")
                         .HasForeignKey("CreatedByUserId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("CreatedByUser");

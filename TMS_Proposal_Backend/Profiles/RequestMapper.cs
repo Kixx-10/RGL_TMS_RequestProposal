@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using TMS_Proposal_Backend.DTOs;
 using TMS_Proposal_Backend.Models;
+using TMS_Proposal_Backend.Models.Master;
 
 namespace TMS_Proposal_Backend.Profiles
 {
@@ -14,6 +15,8 @@ namespace TMS_Proposal_Backend.Profiles
                     .ForMember(dest => dest.CreatedDated, opt => opt.Ignore())
                     .ForMember(dest => dest.UpdatedDate, opt => opt.Ignore());
             CreateMap<Request, ResponseRequestDTO>().ReverseMap();
+            CreateMap<CreateTruckDTO, Truck>();
+            CreateMap<Truck, ResponseTruckDTO>();
         }
     }
 }
