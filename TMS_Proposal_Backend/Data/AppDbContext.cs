@@ -14,6 +14,7 @@ namespace TMS_Proposal_Backend.Data
         public DbSet<Request> Requests { get; set; }
         public DbSet<AuditLogs> AuditLogs { get; set; }
         public DbSet<Truck> Trucks { get; set; }
+        public DbSet<RequestAttachment> RequestAttachments { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

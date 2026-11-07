@@ -152,14 +152,6 @@ namespace TMS_Proposal_Backend.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<string>("FileName")
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<string>("FileUrl")
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
-
                     b.Property<DateTime>("JobDate")
                         .HasColumnType("datetime2");
 
@@ -171,6 +163,35 @@ namespace TMS_Proposal_Backend.Migrations
                     b.HasIndex("CreatedByUserId");
 
                     b.ToTable("Requests");
+                });
+
+            modelBuilder.Entity("TMS_Proposal_Backend.Models.RequestAttachment", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("FileName")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
+                    b.Property<string>("FileUrl")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<Guid>("RequestId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RequestId");
+
+                    b.ToTable("RequestAttachments");
                 });
 
             modelBuilder.Entity("TMS_Proposal_Backend.Models.Audits.AuditLogs", b =>
@@ -206,6 +227,17 @@ namespace TMS_Proposal_Backend.Migrations
                     b.Navigation("CreatedByUser");
                 });
 
+            modelBuilder.Entity("TMS_Proposal_Backend.Models.RequestAttachment", b =>
+                {
+                    b.HasOne("TMS_Proposal_Backend.Models.Request", "Request")
+                        .WithMany("Attachments")
+                        .HasForeignKey("RequestId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Request");
+                });
+
             modelBuilder.Entity("TMS_Proposal_Backend.Models.Auth.User", b =>
                 {
                     b.Navigation("AuditLogs");
@@ -215,6 +247,8 @@ namespace TMS_Proposal_Backend.Migrations
 
             modelBuilder.Entity("TMS_Proposal_Backend.Models.Request", b =>
                 {
+                    b.Navigation("Attachments");
+
                     b.Navigation("Trucks");
                 });
 #pragma warning restore 612, 618
