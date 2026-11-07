@@ -6,11 +6,18 @@ namespace TMS_Proposal_Backend.DTOs
     {
         public string CustomerName { get; set; } = string.Empty;
         public DateTime JobDate { get; set; } = DateTime.UtcNow.Date;
-        public string? FileName { get; set; }
-        public string? FileUrl { get; set; }
-        public List<CreateTruckDTO> Trucks { get; set; } = new();
 
+     
+        public List<CreateRequestAttachmentDTO> Attachments { get; set; } = new();
+        public List<CreateTruckDTO> Trucks { get; set; } = new();
     }
+
+    public class CreateRequestAttachmentDTO
+    {
+        public string FileName { get; set; } = string.Empty;
+        public string FileUrl { get; set; } = string.Empty;
+    }
+
     public class CreateTruckDTO
     {
         public string TruckNo { get; set; } = string.Empty;
@@ -18,3 +25,25 @@ namespace TMS_Proposal_Backend.DTOs
         public string JobType { get; set; } = string.Empty;
     }
 }
+
+
+//using System.ComponentModel.DataAnnotations;
+
+//namespace TMS_Proposal_Backend.DTOs
+//{
+//    public class CreateRequestDTO
+//    {
+//        public string CustomerName { get; set; } = string.Empty;
+//        public DateTime JobDate { get; set; } = DateTime.UtcNow.Date;
+//        public string? FileName { get; set; }
+//        public string? FileUrl { get; set; }
+//        public List<CreateTruckDTO> Trucks { get; set; } = new();
+
+//    }
+//    public class CreateTruckDTO
+//    {
+//        public string TruckNo { get; set; } = string.Empty;
+//        public DateTime ETA { get; set; } = DateTime.UtcNow.Date;
+//        public string JobType { get; set; } = string.Empty;
+//    }
+//}
