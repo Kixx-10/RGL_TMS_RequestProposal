@@ -42,7 +42,6 @@ namespace TMS_Proposal_Backend.Controllers
         }
 
         // Read All Requests Endpoint
-        // Read All Requests Endpoint
         [HttpGet("ReadAll")]
         public async Task<IActionResult> GetAllRequests()
         {
@@ -77,7 +76,7 @@ namespace TMS_Proposal_Backend.Controllers
         }
         //Update
         [HttpPut("Update/{requestId:guid}")]
-        public async Task<IActionResult> UpdateRequest(Guid requestId, [FromBody] CreateRequestDTO dto)
+        public async Task<IActionResult> UpdateRequest(Guid requestId,[FromBody] UpdateRequestDTO dto)
         {
             var userIdValue = User.FindFirst("Id")?.Value;
 
@@ -85,13 +84,17 @@ namespace TMS_Proposal_Backend.Controllers
             {
                 return Unauthorized();
             }
-            var result = await _requestService.UpdateRequestAsync( requestId,dto, updatedByUserId);
 
-            if (result.IsSuccess)return Ok(result);
+            var result = await _requestService.UpdateRequestAsync(requestId,dto,updatedByUserId);
 
-            if (result.ErrorCode == "REQUEST_NOT_FOUND") return NotFound(result);
+            if (result.IsSuccess)
+                return Ok(result);
 
-            if (result.ErrorCode == "SERVER_ERROR")return StatusCode(500, result);
+            if (result.ErrorCode == "REQUEST_NOT_FOUND")
+                return NotFound(result);
+
+            if (result.ErrorCode == "SERVER_ERROR")
+                return StatusCode(500, result);
 
             return BadRequest(result);
         }
