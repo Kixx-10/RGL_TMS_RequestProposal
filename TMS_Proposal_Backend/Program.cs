@@ -14,6 +14,8 @@ using TMS_Proposal_Backend.Services.AuthService;
 using TMS_Proposal_Backend.Services.RequestService;
 using TMS_Proposal_Backend.Services.TokenService;
 using TMS_Proposal_Backend.Validations;
+using TMS_Proposal_Backend.Repository.TruckRepository;
+using TMS_Proposal_Backend.Services.TruckService;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -26,6 +28,7 @@ builder.Services.AddScoped<ISignUpRepository, SignUpRepository>();
 builder.Services.AddScoped<ISignInRepository, SignInRepository>();
 builder.Services.AddScoped<IRequestRepository, RequestRepository>();
 builder.Services.AddScoped<IAuditsLogRepoitory, AuditsLogRepository>();
+builder.Services.AddScoped<ITruckRepository, TruckRepository>();
 
 //DI for Service layer
 builder.Services.AddScoped<ITokenService, TokenService>();
@@ -34,6 +37,8 @@ builder.Services.AddScoped<ISignInService, SignInService>();
 builder.Services.AddScoped<IRequestService, RequestService>();
 builder.Services.AddScoped<IAuditsLogService, AuditsLogService>();
 builder.Services.AddHttpContextAccessor();
+// Truck Service DI
+builder.Services.AddScoped<ITruckService, TruckService>();
 
 //validation di
 builder.Services.AddScoped<IValidator<SignUpDTO>, SignUpValidator>();
@@ -104,9 +109,11 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAngular", policy =>
     {
-        policy.WithOrigins("http://localhost:4200") // Angular URL
-              .AllowAnyHeader()
-              .AllowAnyMethod();
+        policy.WithOrigins(
+            "http://localhost:4200"
+        )
+        .AllowAnyHeader()
+        .AllowAnyMethod();
     });
 });
 
@@ -126,10 +133,10 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-app.UseCors("AngularFrontend");
-app.UseAuthentication();
 
 app.UseCors("AllowAngular");
+
+app.UseAuthentication();
 
 app.UseAuthorization();
 
