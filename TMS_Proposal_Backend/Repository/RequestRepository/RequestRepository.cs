@@ -1,5 +1,4 @@
-﻿
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using TMS_Proposal_Backend.Data;
 using TMS_Proposal_Backend.Models;
 
@@ -15,19 +14,20 @@ namespace TMS_Proposal_Backend.Repository.RequestRepository
         }
 
         // Create Request Proposal
-        public async Task<bool> CreateRequestAsync(Request request)
+        public async Task<Request> CreateRequestAsync(Request request)
         {
             _context.Requests.Add(request);
+            await _context.SaveChangesAsync();
 
-            var result = await _context.SaveChangesAsync();
-
-            return result > 0;
+            return request;
         }
 
-        // Read All Requests
+        // Read All Requests 
         public async Task<IEnumerable<Request>> GetAllRequestsAsync()
         {
             return await _context.Requests
+                .Include(r => r.Trucks)
+                .Include(r => r.Attachments) 
                 .AsNoTracking()
                 .ToListAsync();
         }
@@ -36,22 +36,29 @@ namespace TMS_Proposal_Backend.Repository.RequestRepository
         public async Task<Request?> GetRequestByIdAsync(Guid id)
         {
             return await _context.Requests
+                .Include(r => r.Trucks)
+                .Include(r => r.Attachments) 
                 .AsNoTracking()
                 .FirstOrDefaultAsync(r => r.Id == id);
         }
-        //Update
+
+        // Update
         public async Task<bool> UpdateRequestAsync(Request request)
         {
-            _context.Requests.Update(request);
+           // _context.Requests.Update(request);
 
             var result = await _context.SaveChangesAsync();
 
             return result > 0;
         }
-        //Delete
+
+        // Delete
         public async Task<bool> DeleteRequestAsync(Guid requestId)
         {
+           
             var request = await _context.Requests
+                .Include(r => r.Trucks)
+                .Include(r => r.Attachments)
                 .FirstOrDefaultAsync(r => r.Id == requestId);
 
             if (request is null)

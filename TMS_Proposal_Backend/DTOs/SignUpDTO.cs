@@ -2,8 +2,11 @@
 {
     public class SignUpDTO
     {
+        public string Name { get; set; } = string.Empty;
         public string Email { get; set; } = string.Empty;
         public string Password { get; set; } = string.Empty;
         public bool IsAdmin { get; set; }
+        public string CustomerPhoneNo { get; set; } = string.Empty;
+        public string CompanyAddress { get; set; } = string.Empty;
     }
 }

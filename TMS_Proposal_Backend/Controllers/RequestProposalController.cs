@@ -24,10 +24,16 @@ namespace TMS_Proposal_Backend.Controllers
             CreateRequestDTO dto)
         {
             var userIdValue = User.FindFirst("Id")?.Value;
+            var userName = User.FindFirst("Name")?.Value;
 
             if (!Guid.TryParse(userIdValue, out var userId))
             {
                 return Unauthorized();
+            }
+
+            if (!string.IsNullOrWhiteSpace(userName))
+            {
+                dto.CustomerName = userName;
             }
 
             var result = await _requestService.CreateRequestAsync( dto, userId);
@@ -39,9 +45,19 @@ namespace TMS_Proposal_Backend.Controllers
         [HttpGet("ReadAll")]
         public async Task<IActionResult> GetAllRequests()
         {
-            var result =await _requestService.GetAllRequestsAsync();
+            var userIdValue = User.FindFirst("Id")?.Value;
+            var isAdminValue = User.FindFirst("IsAdmin")?.Value;
 
-            return result.IsSuccess ? Ok(result): BadRequest(result);
+            if (!Guid.TryParse(userIdValue, out var userId))
+            {
+                return Unauthorized();
+            }
+
+            bool isAdmin = bool.TryParse(isAdminValue, out var adminResult) && adminResult;
+
+            var result = await _requestService.GetAllRequestsAsync(userId, isAdmin);
+
+            return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         // Read Request By ID Endpoint
@@ -60,7 +76,7 @@ namespace TMS_Proposal_Backend.Controllers
         }
         //Update
         [HttpPut("Update/{requestId:guid}")]
-        public async Task<IActionResult> UpdateRequest(Guid requestId, [FromBody] CreateRequestDTO dto)
+        public async Task<IActionResult> UpdateRequest(Guid requestId,[FromBody] UpdateRequestDTO dto)
         {
             var userIdValue = User.FindFirst("Id")?.Value;
 
@@ -68,13 +84,17 @@ namespace TMS_Proposal_Backend.Controllers
             {
                 return Unauthorized();
             }
-            var result = await _requestService.UpdateRequestAsync( requestId,dto, updatedByUserId);
 
-            if (result.IsSuccess)return Ok(result);
+            var result = await _requestService.UpdateRequestAsync(requestId,dto,updatedByUserId);
 
-            if (result.ErrorCode == "REQUEST_NOT_FOUND") return NotFound(result);
+            if (result.IsSuccess)
+                return Ok(result);
 
-            if (result.ErrorCode == "SERVER_ERROR")return StatusCode(500, result);
+            if (result.ErrorCode == "REQUEST_NOT_FOUND")
+                return NotFound(result);
+
+            if (result.ErrorCode == "SERVER_ERROR")
+                return StatusCode(500, result);
 
             return BadRequest(result);
         }

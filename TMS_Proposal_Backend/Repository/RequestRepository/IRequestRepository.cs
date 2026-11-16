@@ -4,7 +4,7 @@ namespace TMS_Proposal_Backend.Repository.RequestRepository
 {
     public interface IRequestRepository
     {
-        Task<bool> CreateRequestAsync(Request request);
+        Task<Request> CreateRequestAsync(Request request);
 
         Task<IEnumerable<Request>> GetAllRequestsAsync();
 
