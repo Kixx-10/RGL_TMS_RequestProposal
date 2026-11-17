@@ -88,5 +88,28 @@ namespace TMS_Proposal_Backend.Controllers
                 return StatusCode(500, new { message = "Internal Server Error", error = ex.Message });
             }
         }
+
+        [HttpGet("Download/{fileUrl}")]
+        public IActionResult DownloadFile(string fileUrl, [FromQuery] string? originalName)
+        {
+            var storageFolder = _config["FileStorage:RequestAttachmentsPath"];
+            if (string.IsNullOrWhiteSpace(storageFolder))
+                return StatusCode(500, new { message = "Storage path not configured." });
+
+            // Path Traversal အန္တရာယ်ကာကွယ်ရန် Path.GetFileName သုံးပါ
+            var safeFileName = Path.GetFileName(fileUrl);
+            var filePath = Path.Combine(storageFolder, safeFileName);
+
+            if (!System.IO.File.Exists(filePath))
+                return NotFound(new { message = "File not found." });
+
+            var extension = Path.GetExtension(safeFileName);
+            var contentType = AllowedTypes.TryGetValue(extension, out var mimeSet)
+                ? mimeSet.First()
+                : "application/octet-stream";
+
+            var downloadName = string.IsNullOrWhiteSpace(originalName) ? safeFileName : originalName;
+            return PhysicalFile(filePath, contentType, downloadName);
+        }
     }
 }
