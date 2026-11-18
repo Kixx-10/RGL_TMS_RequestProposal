@@ -15,5 +15,7 @@ namespace TMS_Proposal_Backend.DTOs
 
         [Required]
         public DateTime ETA { get; set; }
+
+        public bool? IsArrived { get; set; }
     }
 }

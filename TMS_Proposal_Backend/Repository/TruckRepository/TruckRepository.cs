@@ -45,6 +45,7 @@ namespace TMS_Proposal_Backend.Repository.TruckRepository
             existingTruck.TruckNo = truck.TruckNo;
             existingTruck.JobType = truck.JobType;
             existingTruck.ETA = truck.ETA;
+            existingTruck.IsArrived = truck.IsArrived;
             existingTruck.UpdatedDate = DateTime.UtcNow;
 
             var result = await _context.SaveChangesAsync();

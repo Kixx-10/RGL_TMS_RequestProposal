@@ -23,6 +23,7 @@ namespace TMS_Proposal_Backend.DTOs
         public string TruckNo { get; set; } = string.Empty;
         public DateTime ETA { get; set; } = DateTime.UtcNow.Date;
         public string JobType { get; set; } = string.Empty;
+        public bool IsArrived { get; set; } = false;
     }
 }
 

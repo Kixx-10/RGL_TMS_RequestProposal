@@ -23,5 +23,6 @@
         public string TruckNo { get; set; } = string.Empty;
         public string JobType { get; set; } = string.Empty;
         public DateTime ETA { get; set; } = DateTime.UtcNow.Date;
+        public bool IsArrived { get; set; }
     }
 }

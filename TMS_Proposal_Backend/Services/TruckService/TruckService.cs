@@ -1,5 +1,4 @@
-﻿
-using AutoMapper;
+﻿using AutoMapper;
 using Microsoft.Extensions.Logging;
 using TMS_Proposal_Backend.DTOs;
 using TMS_Proposal_Backend.DTOs.Common;
@@ -98,9 +97,24 @@ namespace TMS_Proposal_Backend.Services.TruckService
                         .Failure("TRUCK_NOT_FOUND", "Truck not found.");
                 }
 
-                existingTruck.TruckNo = dto.TruckNo;
-                existingTruck.JobType = dto.JobType;
+                if (!string.IsNullOrWhiteSpace(dto.TruckNo))
+                {
+                    existingTruck.TruckNo = dto.TruckNo;
+                }
+
+                if (!string.IsNullOrWhiteSpace(dto.JobType))
+                {
+                    existingTruck.JobType = dto.JobType;
+                }
+
                 existingTruck.ETA = dto.ETA;
+
+                // Arrival Status ပြောင်းလဲခြင်းကို သိမ်းဆည်းရန်
+                if (dto.IsArrived.HasValue)
+                {
+                    existingTruck.IsArrived = dto.IsArrived.Value;
+                }
+
                 existingTruck.UpdatedDate = DateTime.UtcNow;
 
                 var isUpdated = await _truckRepository
@@ -115,7 +129,12 @@ namespace TMS_Proposal_Backend.Services.TruckService
                 await _auditsLogService.LogAsync(
                     updatedByUserId,
                     "Truck Updated",
-                    new { existingTruck.TruckId, existingTruck.TruckNo });
+                    new
+                    {
+                        existingTruck.TruckId,
+                        existingTruck.TruckNo,
+                        existingTruck.IsArrived
+                    });
 
                 return ServiceResponse<bool>
                     .Success(true, "Truck updated successfully.");
