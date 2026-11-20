@@ -23,10 +23,6 @@ namespace TMS_Proposal_Backend.Models.Master
         [Required]
         public bool IsArrived { get; set; } = false;
 
-        // false = Not Arrive (Default), true = Arrived
-        [Required]
-        public bool IsArrived { get; set; } = false;
-
         [Required]
         public Guid RequestId { get; set; }
 
