@@ -112,6 +112,9 @@ namespace TMS_Proposal_Backend.Migrations
                     b.Property<DateTime>("ETA")
                         .HasColumnType("datetime2");
 
+                    b.Property<bool>("IsArrived")
+                        .HasColumnType("bit");
+
                     b.Property<string>("JobType")
                         .IsRequired()
                         .HasMaxLength(20)

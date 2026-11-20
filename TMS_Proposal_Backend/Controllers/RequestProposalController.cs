@@ -61,7 +61,7 @@ namespace TMS_Proposal_Backend.Controllers
         }
 
         // Read Request By ID Endpoint
-        [HttpGet("ReadById{requestId:guid}")]
+        [HttpGet("ReadById/{requestId:guid}")]
         public async Task<IActionResult> GetRequestById(
             Guid requestId)
         {
