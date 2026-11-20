@@ -15,7 +15,7 @@ namespace TMS_Proposal_Backend.Models
         public string CustomerName { get; set; } = string.Empty;
 
         [Required]
-        public DateTime JobDate { get; set; } = DateTime.UtcNow.Date;
+        public DateTime JobDate { get; set; } = DateTime.UtcNow;
 
         [Required]
         public Guid CreatedByUserId { get; set; }
