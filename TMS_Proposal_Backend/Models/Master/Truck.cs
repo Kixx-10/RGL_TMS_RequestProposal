@@ -17,7 +17,11 @@ namespace TMS_Proposal_Backend.Models.Master
         public string JobType { get; set; } = string.Empty;
 
         [Required]
-        public DateTime ETA { get; set; } = DateTime.UtcNow.Date;
+        public DateTime ETA { get; set; } = DateTime.UtcNow;
+
+        // false = Not Arrive (Default), true = Arrived
+        [Required]
+        public bool IsArrived { get; set; } = false;
 
         // false = Not Arrive (Default), true = Arrived
         [Required]
@@ -30,7 +34,7 @@ namespace TMS_Proposal_Backend.Models.Master
         public Request? Request { get; set; }
 
         [Required]
-        public DateTime CreatedDated { get; set; } = DateTime.UtcNow.Date;
+        public DateTime CreatedDated { get; set; } = DateTime.UtcNow;
 
         public DateTime? UpdatedDate { get; set; }
     }

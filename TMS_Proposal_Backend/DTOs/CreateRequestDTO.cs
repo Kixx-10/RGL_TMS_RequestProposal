@@ -5,7 +5,7 @@ namespace TMS_Proposal_Backend.DTOs
     public class CreateRequestDTO
     {
         public string CustomerName { get; set; } = string.Empty;
-        public DateTime JobDate { get; set; } = DateTime.UtcNow.Date;
+        public DateTime JobDate { get; set; } = DateTime.UtcNow;
 
      
         public List<CreateRequestAttachmentDTO> Attachments { get; set; } = new();
@@ -21,7 +21,7 @@ namespace TMS_Proposal_Backend.DTOs
     public class CreateTruckDTO
     {
         public string TruckNo { get; set; } = string.Empty;
-        public DateTime ETA { get; set; } = DateTime.UtcNow.Date;
+        public DateTime ETA { get; set; } = DateTime.UtcNow;
         public string JobType { get; set; } = string.Empty;
         public bool IsArrived { get; set; } = false;
     }
